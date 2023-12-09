@@ -1,0 +1,39 @@
+public class BillingInformationController {
+    
+    public list<Billing_Information__c> billingInformations {get;set;}
+    public boolean readMode {get;set;}
+    public boolean editMode {get;set;}
+    
+    public void read()
+    {
+        editMode= false;
+        readMode=true;
+    }
+    
+    public void edit()
+    {
+        editMode= true;
+        readMode=false;
+    }
+    
+    public BillingInformationController()
+    {
+        billingInformations = new list<Billing_Information__c>();
+        getBillingInformation();
+        read();
+    }
+    
+    public void getBillingInformation()
+    {
+        billingInformations=[select Name,Bill_Start__c,Amount_Swiped__c,Due_Date__c,End_Date__c,Total_Transactions__c,	Payment_Status__c,LastModifiedById from Billing_Information__c];
+    }
+    
+    public void save()
+    {
+        UPDATE billingInformations;
+        ApexPages.Message obj= new ApexPages.Message(ApexPages.severity.info,'Billing information updated successfully');
+        ApexPages.addmessage(obj);
+        read();
+    }
+
+}

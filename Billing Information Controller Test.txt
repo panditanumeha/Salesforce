@@ -1,0 +1,77 @@
+@isTest
+public class BillingInformationControllerTest {
+    
+    @isTest
+    static void testReadMethod() {
+        
+        BillingInformationController controller = new BillingInformationController();
+        controller.read();
+        System.assertEquals(true, controller.readMode, 'readMode should be true');
+        System.assertEquals(false, controller.editMode, 'editMode should be false');
+    }
+    
+    @isTest
+    static void testEditMethod() {
+        
+        BillingInformationController controller = new BillingInformationController();
+        controller.edit();
+        System.assertEquals(true, controller.editMode, 'editMode should be true');
+        System.assertEquals(false, controller.readMode, 'readMode should be false');
+    }
+    
+    @isTest
+    static void testGetBillingInformation() {
+        // Create test data
+        Billing_Information__c testBillingInfo = new Billing_Information__c(
+            Name = 'Test Bill',
+            Bill_Start__c = Date.today(),
+            Amount_Swiped__c = 100,
+            Due_Date__c = Date.today().addDays(30),
+            End_Date__c = Date.today().addMonths(1),
+            Total_Transactions__c = 5,
+            Payment_Status__c = 'Pending'
+           
+        );
+        insert testBillingInfo;
+
+        BillingInformationController controller = new BillingInformationController();
+        
+        controller.getBillingInformation();
+        
+        System.assertNotEquals(null, controller.billingInformations, 'Billing information list is null');
+        System.assertEquals(1, controller.billingInformations.size(), 'Expected one billing information record');
+        System.assertEquals('Test Bill', controller.billingInformations[0].Name, 'Incorrect billing information');
+        System.assertEquals(5, controller.billingInformations[0].Total_Transactions__c, 'Incorrect billing information');
+        System.assertEquals('Pending', controller.billingInformations[0].Payment_Status__c, 'Incorrect billing information');
+        
+    }
+
+    @isTest
+    static void testSaveMethod() {
+        
+        Billing_Information__c testBillingInfo = new Billing_Information__c(
+            Name = 'Test Bill ',
+            Bill_Start__c = Date.today(),
+            Amount_Swiped__c = 100,
+            Due_Date__c = Date.today().addDays(30),
+            End_Date__c = Date.today().addMonths(1),
+            Total_Transactions__c = 5,
+            Payment_Status__c = 'Pending'
+            
+        );
+        insert testBillingInfo;
+
+        // Instantiate the controller
+        BillingInformationController controller = new BillingInformationController();
+        controller.getBillingInformation(); 
+
+        controller.save();
+        Billing_Information__c updatedBillingInfo = [SELECT Id, Payment_Status__c FROM Billing_Information__c WHERE Id = :testBillingInfo.Id];
+
+        System.assertEquals('Billing information updated successfully', ApexPages.getMessages().get(0).getSummary(), 'Incorrect message');
+        System.assertEquals('Billing information updated successfully', ApexPages.getMessages().get(0).getDetail(), 'Incorrect message detail');
+        System.assertEquals('Billing information updated successfully', ApexPages.getMessages().get(0).getSummary(), 'Incorrect message summary');
+        System.assertEquals('Pending', updatedBillingInfo.Payment_Status__c, 'Payment status should be updated');
+    }
+
+}

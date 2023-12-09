@@ -1,0 +1,20 @@
+public class creditCardMasterTriggerHandler {
+    
+    public static void createComment(list<Credit_Card_Master__c> newCreditCardMaster,Map<id,Credit_Card_Master__c> oldCreditCardMasterMap)
+    {
+        list<Comment__c> auditRecord= new list<Comment__c>();
+        for(integer i=0;i<newCreditCardMaster.size();i++)
+        {
+            if(newCreditCardMaster[i].Monthly_Card_Fees__c != oldCreditCardMasterMap.get(newCreditCardMaster[i].ID).Monthly_Card_Fees__c)
+            {
+                Comment__c t= new Comment__c();
+                t.Credit_Card_Master__c= newCreditCardMaster[i].ID;
+                t.Old_Card_Fee__c= oldCreditCardMasterMap.get(newCreditCardMaster[i].ID).Monthly_Card_Fees__c;
+                t.New_Card_Fee__c=newCreditCardMaster[i].Monthly_Card_Fees__c;
+                auditRecord.add(t);
+            }
+        }
+        INSERT auditRecord;
+    }
+
+}

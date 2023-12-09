@@ -1,0 +1,55 @@
+
+<apex:page sidebar="false" controller="BillingInformationController">
+   <apex:form >
+       
+       <apex:outputPanel rendered="{!readMode}">
+           <apex:pageBlock title="List Of Bills">
+         <apex:pageblockTable value="{!billingInformations}" var="billing">
+             <apex:column value="{!billing.Name}"></apex:column>
+             <apex:column value="{!billing.Bill_Start__c}"></apex:column>
+             <apex:column value="{!billing.Amount_Swiped__c}"></apex:column>
+             <apex:column value="{!billing.Due_Date__c}"></apex:column>
+             <apex:column value="{!billing.End_Date__c}"></apex:column>
+             <apex:column value="{!billing.Total_Transactions__c}"></apex:column>
+             <apex:column value="{!billing.Payment_Status__c}"></apex:column>
+             <apex:column value="{!billing.LastModifiedById}"></apex:column>
+         </apex:pageblockTable>
+         <apex:pageblockButtons >
+             <apex:commandButton value="Edit" action="{!edit}"></apex:commandButton>
+         </apex:pageblockButtons>
+     </apex:pageBlock>
+       </apex:outputPanel>
+       
+       <apex:outputPanel rendered="{!editMode}">
+           <apex:pageBlock title="List Of Bills">
+         <apex:pageblockTable value="{!billingInformations}" var="billing">
+             <apex:column headervalue="Name">
+                 <apex:inputField value="{!billing.Name}"></apex:inputField>
+             </apex:column>
+             <apex:column headervalue="Start Date">
+                 <apex:inputField value="{!billing.Bill_Start__c}"></apex:inputField>
+             </apex:column>
+             <apex:column headervalue="Amount Swiped">
+                 <apex:inputField value="{!billing.Amount_Swiped__c}"></apex:inputField>
+             </apex:column>
+             <apex:column headervalue="Due Date">
+                 <apex:inputField value="{!billing.Due_Date__c}"></apex:inputField>
+             </apex:column>
+             <apex:column headervalue="Total Transactions">
+                 <apex:inputField value="{!billing.Total_Transactions__c}"></apex:inputField>
+             </apex:column>
+             <apex:column headervalue="Payment Status">
+                 <apex:inputField value="{!billing.Payment_Status__c}"></apex:inputField>
+             </apex:column>
+             <apex:column headervalue="Last Modified">
+                 <apex:inputField value="{!billing.LastModifiedById}"></apex:inputField>
+             </apex:column>
+             
+          </apex:pageblockTable>
+         <apex:pageblockButtons >
+             <apex:commandButton value="Save" action="{!save}"></apex:commandButton>
+         </apex:pageblockButtons>
+       </apex:pageBlock>
+     </apex:outputPanel>
+   </apex:form>
+</apex:page>

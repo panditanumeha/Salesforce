@@ -1,0 +1,9 @@
+public class MonthlyBillController {
+    
+    public Integer creditCardNumber { get; set; }
+    public List<Billing_Information__c> bills { get; set; }
+
+    public void fetchBills() {
+      bills = [SELECT Total_Outstanding_Amount__c, Payment_Status__c FROM Billing_Information__c WHERE Credit_Card_Number__c = :creditCardNumber];
+    }
+}

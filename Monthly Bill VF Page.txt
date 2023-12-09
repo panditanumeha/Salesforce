@@ -1,0 +1,23 @@
+<apex:page controller="MonthlyBillController">
+    
+    <apex:form>
+        <apex:pageBlock>
+            <apex:pageBlockSection>
+                
+                <apex:inputText value="{!creditCardNumber}" />
+                
+                <apex:commandButton value="Fetch Bills" action="{!fetchBills}" rerender="billTable"/>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+        <apex:pageBlock id="billTable">
+           
+            <apex:pageBlockTable value="{!bills}" var="bill">
+                
+                <apex:column value="{!bill.Total_Outstanding_Amount__c}" />
+                <apex:column value="{!bill.Payment_Status__c}" />
+                
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form>
+    
+</apex:page>

@@ -1,0 +1,25 @@
+@isTest
+public class MonthlyBillTest {
+    
+    @isTest
+    static void testFetchBills() {
+        
+        Billing_Information__c testBillingInfo = new Billing_Information__c(
+            Credit_Card_Number__c = 1234567890, 
+            Total_Outstanding_Amount__c = 100,
+            Payment_Status__c = 'Pending'
+        );
+        insert testBillingInfo;
+
+        MonthlyBillController controller = new MonthlyBillController();
+        
+        controller.creditCardNumber = 1234567890;
+
+        controller.fetchBills();
+        System.assertNotEquals(null, controller.bills, 'Bills list is null');
+        System.assertEquals(1, controller.bills.size(), 'Expected one billing information record');
+        System.assertEquals(100, controller.bills[0].Total_Outstanding_Amount__c, 'Incorrect total outstanding amount');
+        System.assertEquals('Pending', controller.bills[0].Payment_Status__c, 'Incorrect payment status');
+    }
+}
+
